@@ -1,6 +1,6 @@
 test:
 	# -gcflags -m : dosplay compiler decisions about optimisations
-	GOPATH=$(GOPATH) go test -gcflags -m=2
+	GOPATH=$(GOPATH) go test #-gcflags -m=2
 
 build:
 	GOPATH=$(GOPATH) go build
