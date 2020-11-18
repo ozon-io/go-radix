@@ -228,7 +228,7 @@ func Benchmark_Radix(t *testing.B) {
 	now = time.Now()
 	node = r.Node
 	for {
-		node = next(node)
+		node = node.Next()
 		if node == nil {
 			break
 		}
@@ -248,7 +248,7 @@ func Benchmark_Radix(t *testing.B) {
 	now = time.Now()
 	node = r.Node
 	for {
-		node = prev(node)
+		node = node.Prev()
 		if node == nil {
 			break
 		}
@@ -265,7 +265,7 @@ func Benchmark_Radix(t *testing.B) {
 
 	/* Return first entry */
 
-	node = first(r)
+	node = r.First()
 	if node == nil {
 		panic("first cannot be null")
 	}
@@ -279,7 +279,7 @@ func Benchmark_Radix(t *testing.B) {
 
 	/* Return last entry */
 
-	node = last(r)
+	node = r.Last()
 	if node == nil {
 		panic("first cannot be null")
 	}
