@@ -1,15 +1,6 @@
 test:
-	# -gcflags -m : dosplay compiler decisions about optimisations
-	GOPATH=$(GOPATH) go test #-gcflags -m=2
+	go test ./...
 
-bench:
-	GOPATH=$(GOPATH) go test -bench=.
+test-static:
+	staticcheck ./... | staticcheck_color.sh ; exit $${PIPESTATUS[0]}
 
-build:
-	GOPATH=$(GOPATH) go build
-
-get:
-	GOPATH=$(GOPATH) go get
-
-init:
-	GOPATH=$(GOPATH) go mod init radix
