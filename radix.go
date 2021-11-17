@@ -21,8 +21,8 @@ import "fmt"
 /* This is a tree node. */
 type Node struct {
 	Bytes []byte /* slice of bytes for IPv4 */
-	Start int /* the first representative bit in this node */
-	End int /* the first non-representative bit in this node */
+	Start int16 /* the first representative bit in this node */
+	End int16 /* the first non-representative bit in this node */
 	Parent *Node
 	Left *Node
 	Right *Node
@@ -90,16 +90,16 @@ func (n *Node)IsAlignedChildrenOf(p *Node)(bool) {
 	if p.End == n.End {
 		return true
 	}
-	return are_zero(&n.Bytes, p.End + 1, n.End)
+	return are_zero(&n.Bytes, int(p.End) + 1, int(n.End))
 }
 
 /* Take the radix tree and a network
  * return true if leaf match and the list of nodes go throught
  */
-func (r *Radix)LookupLonguestPath(data *[]byte, length int)([]*Node) {
+func (r *Radix)LookupLonguestPath(data *[]byte, length int16)([]*Node) {
 	var node *Node
 	var path_node []*Node
-	var end int
+	var end int16
 
 	/* Browse tree */
 	length-- /* convert length to index of last bit */
@@ -140,10 +140,10 @@ func (r *Radix)LookupLonguestPath(data *[]byte, length int)([]*Node) {
 	}
 }
 
-func (r *Radix)LookupLonguest(data *[]byte, length int)(*Node) {
+func (r *Radix)LookupLonguest(data *[]byte, length int16)(*Node) {
 	var node *Node
 	var last_node *Node
-	var end int
+	var end int16
 
 	/* Browse tree */
 	length-- /* convert length to index of last bit */
@@ -186,7 +186,7 @@ func (r *Radix)LookupLonguest(data *[]byte, length int)(*Node) {
 	}
 }
 
-func (r *Radix)Get(data *[]byte, length int)(*Node) {
+func (r *Radix)Get(data *[]byte, length int16)(*Node) {
 	var n *Node
 	n = r.LookupLonguest(data, length)
 	if n == nil {
@@ -198,9 +198,9 @@ func (r *Radix)Get(data *[]byte, length int)(*Node) {
 	return n
 }
 
-func lookup_longuest_last_node(r *Radix, data *[]byte, length int)(*Node) {
+func lookup_longuest_last_node(r *Radix, data *[]byte, length int16)(*Node) {
 	var node *Node
-	var end int
+	var end int16
 
 	/* Browse tree */
 	length-- /* convert length to index of last bit */
@@ -238,12 +238,12 @@ func lookup_longuest_last_node(r *Radix, data *[]byte, length int)(*Node) {
 }
 
 /* Return nil is node is inserted, otherwise return existing node */
-func (r *Radix)Insert(key *[]byte, length int, data interface{})(*Node, bool) {
+func (r *Radix)Insert(key *[]byte, length int16, data interface{})(*Node, bool) {
 	var leaf *Node
 	var node *Node
 	var newnode *Node
-	var bitno int
-	var l int
+	var bitno int16
+	var l int16
 
 	if length == 0 {
 		return nil, false
@@ -575,10 +575,10 @@ type Iter struct {
 	node *Node
 	next_node *Node
 	key *[]byte
-	length int
+	length int16
 }
 
-func (r *Radix)NewIter(key *[]byte, length int)(*Iter) {
+func (r *Radix)NewIter(key *[]byte, length int16)(*Iter) {
 	var i *Iter
 
 	i = &Iter{}
