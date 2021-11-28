@@ -18,6 +18,8 @@ package radix
 
 import "unsafe"
 
+const kind_node = 0
+
 type chunk struct {
 	nodes [65536]Node
 	ptr uintptr
@@ -34,6 +36,7 @@ type ptr_range struct {
 	start uintptr
 	end uintptr
 	index int
+	kind int
 }
 
 func (r *Radix)node_alloc()(*Node) {
@@ -78,7 +81,7 @@ func (r *Radix)growth() {
 	r.node.pool = append(r.node.pool, c)
 	r.node.free += 65536
 	r.node.capacity += 65536
-	r.add_range(c.ptr, (uintptr)(unsafe.Pointer(&c.nodes[65536 - 1])), len(r.node.pool) - 1)
+	r.add_range(c.ptr, (uintptr)(unsafe.Pointer(&c.nodes[65536 - 1])), len(r.node.pool) - 1, kind_node)
 	for i, _ = range c.nodes {
 		/* first node of the first list the NULL node, so it never be used.
 		 * to make the code simpler, it is allocated, but it is never set
@@ -95,7 +98,7 @@ func (r *Radix)growth() {
 }
 
 /* if insert a range which overlap existing range, it panic */
-func (r *Radix)add_range(start uintptr, end uintptr, index int) {
+func (r *Radix)add_range(start uintptr, end uintptr, index int, kind int) {
 	var left int
 	var right int
 	var pivot int
@@ -109,6 +112,7 @@ func (r *Radix)add_range(start uintptr, end uintptr, index int) {
 		start: start,
 		end: end,
 		index: index,
+		kind: kind,
 	}}
 
 	right = len(r.ptr_range)
@@ -141,6 +145,8 @@ func (r *Radix)n2r(n *Node)(uint32) {
 	var index int
 	var p uintptr
 	var c *chunk
+	var k uint32
+	var kind int
 
 	p = uintptr(unsafe.Pointer(n))
 	right = len(r.ptr_range)
@@ -151,6 +157,7 @@ func (r *Radix)n2r(n *Node)(uint32) {
 	for {
 		if left == right {
 			index = r.ptr_range[left].index
+			kind = r.ptr_range[left].kind
 			break
 		}
 		pivot = (left + right) / 2
@@ -160,6 +167,7 @@ func (r *Radix)n2r(n *Node)(uint32) {
 			left = pivot + 1
 		} else {
 			index = r.ptr_range[pivot].index
+			kind = r.ptr_range[pivot].kind
 			break
 		}
 		if left > right {
@@ -168,5 +176,10 @@ func (r *Radix)n2r(n *Node)(uint32) {
 		}
 	}
 	c = r.node.pool[index]
-	return (uint32(index) << 16) | (uint32(p - c.ptr) / node_sz)
+	if kind == kind_node {
+		k = 0x00000000
+	} else {
+		k = 0x80000000
+	}
+	return k | (uint32(index) << 16) | (uint32(p - c.ptr) / node_sz)
 }
