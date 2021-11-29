@@ -1,3 +1,3 @@
-module git.ozon.io/go/go-radix
+module github.com/ozon-io/go-radix
 
 go 1.14
