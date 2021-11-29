@@ -107,7 +107,7 @@ func equal(n1 *node, n2 *node)(bool) {
 }
 
 /* Print node value */
-func (r *Radix)String(n *node)(string) {
+func (r *Radix)get_string(n *node)(string) {
 	var out string
 	var b byte
 	var mode string
@@ -136,11 +136,11 @@ func (r *Radix)String(n *node)(string) {
 }
 
 /* Return true if n is a children of a */
-func (n *node)IsChildrenOf(p *node)(bool) {
+func (n *node)isChildrenOf(p *node)(bool) {
 	return is_children_of([]byte(n.Bytes), []byte(p.Bytes), n.End, p.End)
 }
 
-func (n *node)IsAlignedChildrenOf(p *node)(bool) {
+func (n *node)isAlignedChildrenOf(p *node)(bool) {
 	if !is_children_of([]byte(n.Bytes), []byte(p.Bytes), n.End, p.End) {
 		return false
 	}

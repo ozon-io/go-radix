@@ -336,7 +336,7 @@ func Test_Radix(t *testing.T) {
 	for it.Next() {
 		n = it.Get()
 		t.Errorf("Case: we have one entry in the tree, initiate browsing on unconcerned network, " +
-		         "expect 0 iteration. Got one entry: %s", r.String(&n.node))
+		         "expect 0 iteration. Got one entry: %s", r.get_string(&n.node))
 	}
 
 	ipn = &net.IPNet{}
@@ -404,11 +404,11 @@ func TestIsAlignedChildrenOf(t *testing.T) {
 	n2.Start = 0
 	n2.End = 31
 
-	if !n1.IsChildrenOf(&n2) {
+	if !n1.isChildrenOf(&n2) {
 		t.Errorf("Should match")
 	}
 
-	if !n1.IsAlignedChildrenOf(&n2) {
+	if !n1.isAlignedChildrenOf(&n2) {
 		t.Errorf("Should match")
 	}
 
@@ -422,11 +422,11 @@ func TestIsAlignedChildrenOf(t *testing.T) {
 	n2.Start = 0
 	n2.End = 31
 
-	if n1.IsChildrenOf(&n2) {
+	if n1.isChildrenOf(&n2) {
 		t.Errorf("Should not match")
 	}
 
-	if n1.IsAlignedChildrenOf(&n2) {
+	if n1.isAlignedChildrenOf(&n2) {
 		t.Errorf("Should not match")
 	}
 
@@ -440,11 +440,11 @@ func TestIsAlignedChildrenOf(t *testing.T) {
 	n2.Start = 0
 	n2.End = 23
 
-	if !n1.IsChildrenOf(&n2) {
+	if !n1.isChildrenOf(&n2) {
 		t.Errorf("Should match")
 	}
 
-	if !n1.IsAlignedChildrenOf(&n2) {
+	if !n1.isAlignedChildrenOf(&n2) {
 		t.Errorf("Should match")
 	}
 
@@ -458,11 +458,11 @@ func TestIsAlignedChildrenOf(t *testing.T) {
 	n2.Start = 0
 	n2.End = 23
 
-	if !n1.IsChildrenOf(&n2) {
+	if !n1.isChildrenOf(&n2) {
 		t.Errorf("Should match")
 	}
 
-	if n1.IsAlignedChildrenOf(&n2) {
+	if n1.isAlignedChildrenOf(&n2) {
 		t.Errorf("Should not match")
 	}
 
@@ -480,11 +480,11 @@ func TestIsAlignedChildrenOf(t *testing.T) {
 	n2.Start = 0
 	n2.End = 14
 
-	if !n1.IsChildrenOf(&n2) {
+	if !n1.isChildrenOf(&n2) {
 		t.Errorf("Should match")
 	}
 
-	if !n1.IsAlignedChildrenOf(&n2) {
+	if !n1.isAlignedChildrenOf(&n2) {
 		t.Errorf("Should not match")
 	}
 }
