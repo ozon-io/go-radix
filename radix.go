@@ -582,6 +582,7 @@ func (r *Radix)del(n *node) {
 		/* we reach root */
 		if n.Parent == null {
 			r.Node = null
+			r.free(n)
 			return
 		}
 
@@ -600,6 +601,7 @@ func (r *Radix)del(n *node) {
 		}
 
 		/* Remove the parent node */
+		r.free(n)
 		r.del(p)
 	}
 }
