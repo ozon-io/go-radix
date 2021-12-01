@@ -300,56 +300,67 @@ func create_radix_test()(r *Radix) {
 	ipn.IP = net.ParseIP("192.168.0.0")
 	ipn.Mask = net.CIDRMask(16, 32)
 	r.IPv4Insert(ipn, "Network 192.168.0.0/16")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.0.0.0")
 	ipn.Mask = net.CIDRMask(8, 32)
 	r.IPv4Insert(ipn, "Network 10.0.0.0/8 - 2")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.0.0.0")
 	ipn.Mask = net.CIDRMask(10, 32)
 	r.IPv4Insert(ipn, "Network 10.0.0.0/10")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.64.0.0")
 	ipn.Mask = net.CIDRMask(10, 32)
 	r.IPv4Insert(ipn, "Network 10.64.0.0/10")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.64.0.0")
 	ipn.Mask = net.CIDRMask(9, 32)
 	r.IPv4Insert(ipn, "Network 10.64.0.0/9")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.64.0.0")
 	ipn.Mask = net.CIDRMask(11, 32)
 	r.IPv4Insert(ipn, "Network 10.64.0.0/11")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.96.0.0")
 	ipn.Mask = net.CIDRMask(11, 32)
 	r.IPv4Insert(ipn, "Network 10.96.0.0/11")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("100.0.0.0")
 	ipn.Mask = net.CIDRMask(24, 32)
 	r.IPv4Insert(ipn, "Network 100.0.0.0/24")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("100.0.0.0")
 	ipn.Mask = net.CIDRMask(15, 32)
 	r.IPv4Insert(ipn, "Network 100.0.0.0/15")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("100.7.0.0")
 	ipn.Mask = net.CIDRMask(24, 32)
 	r.IPv4Insert(ipn, "Network 100.7.0.0/24")
+	r.check_lvl1_and_die_on_error()
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("100.7.0.0")
 	ipn.Mask = net.CIDRMask(15, 32)
 	r.IPv4Insert(ipn, "Network 100.7.0.0/15")
+	r.check_lvl1_and_die_on_error()
 
 	return r
 }
@@ -367,6 +378,7 @@ func Test_Radix(t *testing.T) {
 	ipn.IP = net.ParseIP("0.0.0.0")
 	ipn.Mask = net.CIDRMask(0, 32)
 	r.IPv4Insert(ipn, "Network 0.0.0.0/0")
+	r.check_lvl1_and_die_on_error()
 	if r.length != 0 {
 		t.Errorf("Network 0.0.0.0/0 should not be inserted")
 	}
@@ -378,6 +390,7 @@ func Test_Radix(t *testing.T) {
 	ipn.IP = net.ParseIP("192.168.0.0")
 	ipn.Mask = net.CIDRMask(16, 32)
 	r.IPv4Insert(ipn, "Network 192.168.0.0/16")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	/* CASE #2 
@@ -389,6 +402,7 @@ func Test_Radix(t *testing.T) {
 	ipn.IP = net.ParseIP("10.0.0.0")
 	ipn.Mask = net.CIDRMask(8, 32)
 	r.IPv4Insert(ipn, "Network 10.0.0.0/8 - 2")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	/* CASE #2 - end
@@ -402,18 +416,21 @@ func Test_Radix(t *testing.T) {
 	ipn.IP = net.ParseIP("10.0.0.0")
 	ipn.Mask = net.CIDRMask(10, 32)
 	r.IPv4Insert(ipn, "Network 10.0.0.0/10")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.64.0.0")
 	ipn.Mask = net.CIDRMask(10, 32)
 	r.IPv4Insert(ipn, "Network 10.64.0.0/10")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.64.0.0")
 	ipn.Mask = net.CIDRMask(9, 32)
 	r.IPv4Insert(ipn, "Network 10.64.0.0/9")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	/* CASE #3
@@ -426,12 +443,14 @@ func Test_Radix(t *testing.T) {
 	ipn.IP = net.ParseIP("10.64.0.0")
 	ipn.Mask = net.CIDRMask(11, 32)
 	r.IPv4Insert(ipn, "Network 10.64.0.0/11")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("10.96.0.0")
 	ipn.Mask = net.CIDRMask(11, 32)
 	r.IPv4Insert(ipn, "Network 10.96.0.0/11")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	/* CASE #4
@@ -442,24 +461,28 @@ func Test_Radix(t *testing.T) {
 	ipn.IP = net.ParseIP("100.0.0.0")
 	ipn.Mask = net.CIDRMask(24, 32)
 	r.IPv4Insert(ipn, "Network 100.0.0.0/24")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("100.0.0.0")
 	ipn.Mask = net.CIDRMask(15, 32)
 	r.IPv4Insert(ipn, "Network 100.0.0.0/15")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("100.7.0.0")
 	ipn.Mask = net.CIDRMask(24, 32)
 	r.IPv4Insert(ipn, "Network 100.7.0.0/24")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
 	ipn.IP = net.ParseIP("100.7.0.0")
 	ipn.Mask = net.CIDRMask(15, 32)
 	r.IPv4Insert(ipn, "Network 100.7.0.0/15")
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	/* Test delete node */
@@ -469,8 +492,10 @@ func Test_Radix(t *testing.T) {
 	ipn.IP = net.ParseIP("192.168.0.0")
 	ipn.Mask = net.CIDRMask(16, 32)
 	r.IPv4Insert(ipn, "Network 192.168.0.0/16")
+	r.check_lvl1_and_die_on_error()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	r = create_radix_test()
@@ -479,6 +504,7 @@ func Test_Radix(t *testing.T) {
 	ipn.Mask = net.CIDRMask(16, 32)
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -486,6 +512,7 @@ func Test_Radix(t *testing.T) {
 	ipn.Mask = net.CIDRMask(8, 32)
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -494,6 +521,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -502,6 +530,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -510,6 +539,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -518,6 +548,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -526,6 +557,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -534,6 +566,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -542,6 +575,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -550,6 +584,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -558,6 +593,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -566,6 +602,7 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
 	ipn = &net.IPNet{}
@@ -574,8 +611,34 @@ func Test_Radix(t *testing.T) {
 	r = create_radix_test()
 	n = r.IPv4Get(ipn)
 	r.Delete(n)
+	r.check_lvl1_and_die_on_error()
 	browse(t, r)
 
+}
+
+func Test_Radix_dead_sequence_01(t *testing.T) {
+	var r *Radix
+	var n *net.IPNet
+
+	r = NewRadix()
+
+	_, n, _ = net.ParseCIDR("34.74.12.152/32")
+	fmt.Printf("\nInsert %s\n", n.String())
+	r.IPv4Insert(n, true)
+	r.check_lvl1_and_die_on_error()
+	r.DebugStdout()
+
+	_, n, _ = net.ParseCIDR("34.74.12.153/32")
+	fmt.Printf("\nInsert %s\n", n.String())
+	r.IPv4Insert(n, true)
+	r.check_lvl1_and_die_on_error()
+	r.DebugStdout()
+
+	_, n, _ = net.ParseCIDR("34.74.12.152/31")
+	fmt.Printf("\nInsert %s\n", n.String())
+	r.IPv4Insert(n, true)
+	r.check_lvl1_and_die_on_error()
+	r.DebugStdout()
 }
 
 func Test_Radix_random(t *testing.T) {
