@@ -215,7 +215,6 @@ func (r *Radix)n2r(n *node)(uint32) {
 	p = uintptr(unsafe.Pointer(n))
 	right = len(r.ptr_range)
 	if right == 0 {
-		panic("e")
 		return 0
 	}
 	for {
@@ -235,7 +234,6 @@ func (r *Radix)n2r(n *node)(uint32) {
 			break
 		}
 		if left > right {
-		panic("g")
 			return 0
 		}
 	}
